@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTextMessage;
     Fragment fragment = null;
     FragmentTransaction fragmentTransaction;
+    private MapFragment mapFragment = new MapFragment();
+    private HomeFragment homeFragment = new HomeFragment();
 
     public static BottomNavigationView bottomNavigationView;
 
@@ -25,10 +27,13 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
+                    mTextMessage.setText(R.string.title_home);
+                    fragment = homeFragment;
+                    switchFragment(fragment);
                     return true;
                 case R.id.navigation_map:
-                    //mTextMessage.setText(R.string.title_map);
-                    switchFragment(new MapFragment());
+                    fragment = mapFragment;
+                    switchFragment(fragment);
                     return true;
                 case R.id.navigation_lists:
                     mTextMessage.setText(R.string.title_lists);
@@ -44,18 +49,26 @@ public class MainActivity extends AppCompatActivity {
     private void switchFragment(Fragment fragment){
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.content_frame, fragment);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_main);
 
         mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(R.id.navigation_home);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragment = new HomeFragment();
+        fragmentTransaction.replace(R.id.content_frame, fragment);
+        fragmentTransaction.commit();
     }
 
 }
