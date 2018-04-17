@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ECaFT-android</string>
+    <string name="title_home">Home</string>
+    <string name="title_map">Map</string>
+    <string name="title_information">Information</string>
+    <string name="title_lists">Lists</string>
+</resources>
